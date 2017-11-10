@@ -1,0 +1,42 @@
+digraph G {
+"Start" -> "I"
+"Start" -> "vi"
+"I" -> "IV"[color=blue]
+"I" -> "vi"[color=blue]
+"I" -> "ii" [color=blue]
+"vi" -> "ii"[color=red]
+"vi" -> "IV"[color=red]
+"IV" -> "V"[color=yellow]
+"IV" -> "vi"[color=yellow]
+"IV" -> "V7/IV"[color=yellow]
+"ii" -> "vi"[color=purple]
+"ii" -> "V"[color=purple]
+"ii" -> "V/vi"[color=purple]
+"V" -> "I"[color=green]
+"V" -> "vi"[color=green]
+"V" -> "V7"[color=green]
+"V/vi" -> "vi"
+"V7/IV" -> "IV"
+"V/V" -> "V"
+"V7" -> "I"
+}
+
+
+
+digraph G {
+"Start" -> "I"
+"Start" -> "vi"
+"I" -> "IV"[color=blue]
+"I" -> "ii"[color=blue]
+"vi" -> "ii"[color=red]
+"vi" -> "IV"[color=red]
+"IV" -> "V"[color=yellow]
+"ii" -> "viio"[color=purple]
+"ii" -> "V/vi"[color=purple]
+"V" -> "I"[color=green]
+"V" -> "vi"[color=green]
+"V/vi" -> "vi"
+}
+
+
+
