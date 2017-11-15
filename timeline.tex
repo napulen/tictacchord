@@ -1,2 +1,72 @@
 
 \section{Timeline for Final Project of MUMT620}
+	\subsection{10/31/2017 - 11/6/2017}
+		\begin{itemize}
+			\item I was working on a prototype of the proposal I made
+			\item Finished the TouchOSC GUI for it and also the supercollider program
+			\item I tested the game and tried to get in the position of an average player
+			\item Some things came up immediately, remembering the order of the tones was really difficult because there was no context
+			\item This turned out to be a very difficult "ear training" game, with a very slow gameplay
+			\item I played some other ear training games to compare, and I realized the experience was much easier in available games
+			\item I used this feedback from my own experience to pursue a new idea, taking into account two major points
+			\begin{itemize}
+				\item The interaction with the controller should be faster and engaging
+				\item It should be easy to play the game, even if not doing it "virtuosic", the game mechanics should allow the player to input commands almost without any instructions
+			\end{itemize}
+			\item During the weekend of November 4th, I came with another idea for a musical controller which could be used for games
+			\item The basic controller consists of six discrete commands, inspired by "beat em up" games
+			\item The six commands represent three harmonic functions in two modes:
+				\begin{itemize}
+					\item Tonic, Subdominant, Dominant in a major key
+					\item Tonic, Subdominant, Dominant in a relative minor key of the major key above
+				\end{itemize}
+			\item I finished a basic definition and concept on this week, and the next week I started with the implementation of the controller and game mechanics
+		\end{itemize}  
+
+	\subsection{11/7/2017 - 11/13/2017}
+		\begin{itemize}
+			\item Game mechanics
+			\begin{itemize}
+				\item The first idea was to have a "turn-based" system in which two players have the opportunity to fight each other by using one of the six commands
+				\item The players do not need to be aware of the musical abstraction, however, the transitions are based on harmonic progressions of classical music
+				\item The model for the turn based approach was inspired in the "Tick-Tack-Toe" game, with sequences of 3 successive symbols summing a score to a player, the 3 successive symbols are defined by the chord transitions graph
+				\item I was researching for previous efforts of a music-based "tick-tack-toe" and found a couple of references
+				\begin{itemize}
+					\item One of the approaches was an analysis of the game to extract music composition rules
+					\item The other one is a "children-friendly" version of tick-tack-toe, for teaching music concepts
+				\end{itemize}
+				\item By the end of this week, I do not have a fully-defined mechanic, but a prototype of a transition graph and game mechanics
+			\end{itemize}
+			\item Game controller
+			\begin{itemize}
+				\item During this week a basic version of the controller was constructed
+				\item The basic guidelines for the design of the controller were the following:
+				\begin{itemize}
+					\item The controller should turn a smartphone into a controller, i.e. take advantage of gestures that can be performed in a smartphone
+					\item The six basic commands from the controller are captured from rotating the device, these commands are discrete gestures, however, a normalized value of the gyroscope is used stored in a variable and can be used for controlling other parameters not related to the basic six commands
+					\item The sensor used as a reference is the embedded Bosch Sensortec BMI160 accelerometer and gyroscope in Nexus 6p smartphones (my personal smartphone)
+					\item The simplest version of the controller just outputs six different events with six different rotation gestures
+				\end{itemize}
+				\item By the end of this week, the simplest version of the controller is tested and working in a Nexus 6p smartphone, with a very basic graphic interface to visualize the events triggered by the gestures and sample sounds synthesized
+			\end{itemize}
+		\end{itemize}
+		\subsection{11/14/2017 - 11/20/2017}
+			\begin{itemize}
+				\item The work for this week is divided in two parts:
+				\item Game mechanics
+				\begin{itemize}
+					\item Finish a simple game mechanic concept and state machine that uses only the basic gestures of the controller
+				\end{itemize}
+				\item Game controller
+				\begin{itemize}
+					\item Incorporate continuous parameters into the controller and design a user interface that uses these new parameters
+				\end{itemize}
+			\end{itemize}
+		\subsection{11/21/2017 - 27/20/2017}
+			\begin{itemize}
+				\item The final project will consist as well of two parts
+				\begin{itemize}
+					\item A game controller with an interface that makes use of all its parameters, without any game mechanics implementation
+					\item A simple game mechanic that uses the basic functionality of the game controller
+				\end{itemize}
+			\end{itemize}

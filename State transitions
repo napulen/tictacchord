@@ -21,8 +21,6 @@ digraph G {
 "V7" -> "I"
 }
 
-
-
 digraph G {
 "Start" -> "I"
 "Start" -> "vi"
@@ -39,4 +37,36 @@ digraph G {
 }
 
 
+digraph G {
+	"Start" -> "A"
+	"Start" -> "B"
+	"A" -> "AA"
+	"A" -> "AB"
+	"B" -> "BA"
+	"B" -> "BB"
+	"AA" -> "AAA"
+	"AA" -> "AAB"
+	"AB" -> "ABA"
+	"AB" -> "ABB"
+	"BA" -> "BAA"
+	"BA" -> "BAB"
+	"BB" -> "BBA"
+	"BB" -> "BBB"
+	"AAA" -> "AAAA"
+	"AAA" -> "AAAB"
+	"AAB" -> "AABA"
+	"AAB" -> "AABB"
+	"ABA" -> "ABAA"
+	"ABA" -> "ABAB"
+	"ABB" -> "ABBA"
+	"ABB" -> "ABBB"
+	"BAA" -> "BAAA"
+	"BAA" -> "BAAB"
+	"BAB" -> "BABA"
+	"BAB" -> "BABB"
+	"BBA" -> "BBAA"
+	"BBA" -> "BBAB"
+	"BBB" -> "BBBA"
+	"BBB" -> "BBBB"
+}
 
