@@ -1,0 +1,140 @@
+digraph G {
+	"Start" -> "I"
+	"Start" -> "vi"
+	"I" -> "IVc"
+	"I" -> "ii7d"
+	"vi" -> "IVc"
+	"vi" -> "iic"
+	"IVc" -> "V7c"
+	"IVc" -> "V7d/V"
+	"ii7d" -> "V7d/V"
+	"ii7d" -> "V7b"
+	"IVc" -> "V7/ii"
+	"IVc" -> "V7c/vi"
+	"iic" -> "V7c/vi"
+	"iic" -> "V7/ii"
+	"V7c" -> "I"
+	"V7c" -> "vi"
+	"V7d/V" -> "V"
+	"V7d/V" -> "vi"
+	"V7d/V" -> "V"
+	"V7d/V" -> "vi"
+	"V7b" -> "I"
+	"V7b" -> "vi"
+	"V7/ii" -> "I"
+	"V7/ii" -> "ii"
+	"V7c/vi" -> "I"
+	"V7c/vi" -> "vi"
+	"V7c/vi" -> "I"
+	"V7c/vi" -> "vi"
+	"V7/ii" -> "I"
+	"V7/ii" -> "ii"
+}
+
+Start
+	I
+		IVc
+			V7c
+				I
+				vi
+			V7d/V
+				V
+				vi
+		ii7d
+			V7d/V
+				V
+				vi
+			V7b
+				I
+				vi
+	vi
+		IVc
+			V7/ii
+				I
+				ii
+			V7c/vi
+				I
+				vi
+		iic
+			V7c/vi
+				I
+				vi
+			V7/ii
+				I
+				ii
+
+
+digraph G {
+	"Start" -> "I"[color=blue]
+	"Start" -> "vi"[color=red]
+	"I" -> "IV"[color=blue]
+	"I" -> "ii7"[color=blue]
+	"vi" -> "IV"[color=red]
+	"vi" -> "ii"[color=red]
+	"IV" -> "V7"[color=blue]
+	"IV" -> "V7/V"[color=blue]
+	"ii7" -> "V7/V"[color=blue]
+	"ii7" -> "V7"[color=blue]
+	"IV" -> "V7/ii"[color=red]
+	"IV" -> "V7/vi"[color=red]
+	"ii" -> "V7/vi"[color=red]
+	"ii" -> "V7/ii"[color=red]
+	"V7" -> "I"[color=blue]
+	"V7" -> "vi"[color=blue]
+	"V7/V" -> "V"[color=blue]
+	"V7/V" -> "vi"[color=blue]
+	#"V7/V" -> "V"[color=blue]
+	#"V7/V" -> "vi"[color=blue]
+	#"V7" -> "I"[color=blue]
+	#"V7" -> "vi"[color=blue]
+	"V7/ii" -> "I"[color=red]
+	"V7/ii" -> "ii"[color=red]
+	"V7/vi" -> "I"[color=red]
+	"V7/vi" -> "vi"[color=red]
+	#"V7/vi" -> "I"[color=red]
+	#"V7/vi" -> "vi"[color=red]
+	#"V7/ii" -> "I"[color=red]
+	#"V7/ii" -> "ii"[color=red]
+}
+
+
+digraph G {
+	"1" -> "2"[color=blue]
+	"1" -> "3"[color=red]
+	"2" -> "4"[color=blue]
+	"2" -> "5"[color=blue]
+	"3" -> "6"[color=red]
+	"3" -> "7"[color=red]
+	"4" -> "8"[color=blue]
+	"4" -> "9"[color=blue]
+	"5" -> "10"[color=blue]
+	"5" -> "11"[color=blue]
+	"6" -> "12"[color=red]
+	"6" -> "13"[color=red]
+	"7" -> "14"[color=red]
+	"7" -> "15"[color=red]
+	"8" -> "17"[color=blue]
+	"8" -> "18"[color=blue]
+	"9" -> "16"[color=blue]
+	"9" -> "18"[color=blue]
+	"10" -> "16"[color=blue]
+	"10" -> "18"[color=blue]
+	"11" -> "17"[color=blue]
+	"11" -> "18"[color=blue]
+	"12" -> "17"[color=red]
+	"12" -> "19"[color=red]
+	"13" -> "17"[color=red]
+	"13" -> "18"[color=red]
+	"14" -> "17"[color=red]
+	"14" -> "18"[color=red]
+	"15" -> "17"[color=red]
+	"15" -> "19"[color=red]
+	"16" -> "4"[color=green]
+	"16" -> "5"[color=green]
+	"17" -> "4"[color=blue]
+	"17" -> "5"[color=blue]
+	"18" -> "6"[color=red]
+	"18" -> "7"[color=red]
+	"19" -> "6"[color=purple]
+	"19" -> "7"[color=purple]
+}
