@@ -8,8 +8,8 @@ chords = {
 		'chord':[60, 64, 67, 72]
 	},
 	'vi':{
-		'root': 57, 
-		'chord':[57, 60, 64, 69]
+		'root': 69, 
+		'chord':[45, 48, 52, 57]
 	},
 	'IVc':{
 		'root': 53,
@@ -20,12 +20,12 @@ chords = {
 		'chord':[62, 65, 69, 72]
 	},
 	'IVb':{
-		'root': 53,
-		'chord':[57, 60, 65, 69]
+		'root': 65,
+		'chord':[45, 48, 53, 57]
 	},
 	'iic':{
-		'root': 50,
-		'chord':[57, 62, 65, 69]
+		'root': 62,
+		'chord':[45, 50, 53, 57]
 	},
 	'V7c':{
 		'root': 55,
@@ -36,12 +36,12 @@ chords = {
 		'chord':[62, 66, 69, 72]
 	},
 	'V7/ii':{
-		'root': 57,
-		'chord':[57, 61, 64, 67]
+		'root': 61,
+		'chord':[45, 49, 52, 55]
 	},
 	'V7c/vi':{
-		'root': 62,
-		'chord':[59, 62, 64, 68]
+		'root': 64,
+		'chord':[47, 50, 52, 56]
 	}
 }
 
@@ -361,12 +361,13 @@ state_transitions = {
 				'transitionType': 'minor',
 			}
 		}
-	},
+	}
 }
 
 def traverse(commandlist, state=1):
 	maximum_parts = 2
-	tempo = initial_tempo	
+	tempo = initial_tempo
+	key = 0	
 	score = music21.stream.Score()
 	parts = [music21.stream.Part(), music21.stream.Part()]	
 	openMeasure = False
@@ -382,7 +383,6 @@ def traverse(commandlist, state=1):
 				else:
 					measures.append(music21.stream.Measure())
 				measures[i].timeSignature = music21.meter.TimeSignature('3/4')				
-				
 		if command in state_transitions[state]['transitions']:
 			transition = state_transitions[state]['transitions'][command]
 			new_state = transition['destination']
@@ -390,18 +390,24 @@ def traverse(commandlist, state=1):
 			transitionType = transition['transitionType']
 			instruments = getInstruments(transitionType)
 			tempo = getTempo(transitionType, tempo)
+			key = getKey(transitionType, key)
 			print 'Transition: {} -> {}, playing {} with {} and {}, in {} pattern'.format(state, new_state, chord, instruments[0], instruments[1], transitionType)
-			state = new_state
-			voice_list = musicalizeTransition(chords[chord]['root'], chords[chord]['chord'], transitionType)
+			voice_list = musicalizeTransition(chords[chord]['root'], chords[chord]['chord'], key, transitionType)
 			for idx,voice in enumerate(voice_list):
-				measures[idx].append(voice)				
-			for idx in range(maximum_parts):			
-				measures[idx].insert(float(turn-1), instruments[idx])
+				measures[idx].append(voice)
+			noteforLyrics = measures[1].getElementAtOrBefore(float(turn-1), [music21.note.Note, music21.note.Rest, music21.chord.Chord])
+			print noteforLyrics.offset
+			noteforLyrics.addLyric("{} --{}-> {}\n{}".format(state, command, new_state, chord))				
 			if turn == 3:
 				measures[0].insert(0.0, music21.tempo.MetronomeMark(number=tempo))
+				measures[0].insert(0.0, instruments[0])
+				measures[1].insert(0.0, instruments[1])
+				measures[0].insert(0.0, music21.clef.bestClef(measures[0]))
+				measures[1].insert(0.0, music21.clef.bestClef(measures[1]))
 				parts[0].append(measures[0])
 				parts[1].append(measures[1])
 				openMeasure = False
+			state = new_state
 		else:
 			print 'Invalid command {} in state {}. No transition performed.'.format(command, state)
 	print 'Finished parsing commands'
@@ -409,7 +415,6 @@ def traverse(commandlist, state=1):
 		parts[0].append(measures[0])
 		parts[1].append(measures[1])
 	score.append(parts)
-	#score.makeMeasures(inPlace=True)
 	score.show()
 
 
@@ -420,23 +425,42 @@ def getTempo(transitionType, tempo):
 		tempo = initial_tempo
 	return tempo
 
+def getKey(transitionType, key):
+	if transitionType == 'major':
+		'''return key'''
+	elif transitionType == 'major_cadence':
+		'''return key'''
+	elif transitionType == 'major_deceptive':
+		'''return key'''
+	elif transitionType == 'major_modulation':
+		key = (key + 7) % 12
+	elif transitionType == 'minor':
+		'''return key'''
+	elif transitionType == 'minor_cadence':
+		'''return key'''
+	elif transitionType == 'minor_deceptive':
+		'''return key'''
+	elif transitionType == 'minor_modulation':
+		key = (key + 5) % 12
+	return key
+
 
 def getInstruments(transitionType):
 	instruments = []
 	if transitionType == 'major' or transitionType == 'major_cadence' or transitionType == 'major_deceptive' or transitionType == 'major_modulation':
 		instruments.append(music21.instrument.Harp())
-		instruments.append(music21.instrument.Piano())
+		instruments.append(music21.instrument.Harp())
 	elif transitionType == 'minor' or transitionType == 'minor_cadence' or transitionType == 'minor_deceptive' or transitionType == 'minor_modulation':
-		instruments.append(music21.instrument.Piano())
+		instruments.append(music21.instrument.Harp())
 		instruments.append(music21.instrument.Harp())
 	return instruments
 
-def musicalizeTransition(root=0, chord=[], transitionType='major'):
-	bassnote = music21.pitch.Pitch(root+12)
-	notelist = [music21.pitch.Pitch(x+12) for x in chord]
+def musicalizeTransition(root=0, chord=[], key=0, transitionType='major'):
+
+	bassnote = music21.pitch.Pitch(root+key)
+	notelist = [music21.pitch.Pitch(x+key) for x in chord]
 	rh = []
 	lh = []
-
 	if len(notelist) != 4:
 		print 'Warning: I will only consider the first 4 notes of the chord'
 	if transitionType == 'major' or transitionType == 'major_deceptive':
@@ -459,7 +483,7 @@ def musicalizeTransition(root=0, chord=[], transitionType='major'):
 		lh.append(music21.note.Note(notelist[2], type='32nd'))
 		lh.append(music21.note.Note(notelist[1], type='32nd'))
 		lh.append(music21.note.Note(notelist[0], type='32nd'))
-	elif transitionType == 'major_cadence' or transitionType == 'minor_cadence' or transitionType == 'major_modulation' or transitionType == 'minor_modulation':
+	elif transitionType == 'major_cadence' or transitionType == 'major_modulation':
 		rh.append(music21.note.Rest(type='32nd'))
 		rh.append(music21.note.Note(notelist[0], type='32nd'))
 		rh.append(music21.note.Note(notelist[1], type='32nd'))
@@ -472,11 +496,35 @@ def musicalizeTransition(root=0, chord=[], transitionType='major'):
 		lh.append(music21.note.Rest(type='16th'))
 		lh.append(music21.note.Rest(type='16th'))
 		lh.append(music21.note.Rest(type='16th'))
+	elif transitionType == 'minor_cadence' or transitionType == 'minor_modulation':
+		rh.append(music21.chord.Chord([bassnote]+notelist, type='16th'))
+		rh.append(music21.note.Rest(type='16th'))
+		rh.append(music21.note.Rest(type='16th'))
+		rh.append(music21.note.Rest(type='16th'))
+		lh.append(music21.note.Rest(type='32nd'))
+		lh.append(music21.note.Note(notelist[0], type='32nd'))
+		lh.append(music21.note.Note(notelist[1], type='32nd'))
+		lh.append(music21.note.Note(notelist[2], type='32nd'))
+		lh.append(music21.note.Note(notelist[3], type='32nd'))
+		lh.append(music21.note.Note(notelist[2], type='32nd'))
+		lh.append(music21.note.Note(notelist[1], type='32nd'))
+		lh.append(music21.note.Note(notelist[0], type='32nd'))
 	return [rh, lh]
-
+'''
+traverse([
+	2,3,5,
+	2,3,6,
+	2,4,5,
+	2,4,6,
+	1,3,5,
+	1,3,6,
+	1,4,5,
+	1,4,6,])
+'''
 
 traverse([1,3,5,2,3,5,1,3,5,2,3,5,2,3,5,2])
 
+'''
 traverse([
 	1,3,5,
 	1,3,5,
@@ -493,4 +541,5 @@ traverse([
 	1,4,6,
 	1,4,6,
 	2,4,6,
-	2,4,6,])
+	2,4,6])
+'''
